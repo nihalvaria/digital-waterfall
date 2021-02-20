@@ -6,13 +6,14 @@ Item {
     property int side: 0
     property int duration: 2000
     property int posY: 0 - side
+    property int currentScreen
     
     property int currentPosY: 0
     property double currentDuration: 0
     property double travelTimeOfPixel: duration / (parent.height + side)
     property bool passingFlag: false
 
-    signal endOfScreen(int x, url source);
+    signal endOfScreen(int x, url source, int screen);
 
     width: side 
     height: side
@@ -49,7 +50,7 @@ Item {
      
     onYChanged: {
         if(animatedItem.y >= (parent.height - side) && !passingFlag) {
-            animatedItem.endOfScreen(animatedItem.x, animatedItem.url, parent.objectName)
+            animatedItem.endOfScreen(animatedItem.x, animatedItem.url, parseInt(objectName) + 1)
             passingFlag = true
         }
     }

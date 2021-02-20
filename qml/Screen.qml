@@ -19,7 +19,8 @@ Window {
         var dynamicObject = component.createObject(screen, {
             x: x,
             url: url,
-            side: screen.objectSide
+            objectName: objectName,
+            side: objectSide
         });
         if (connect) {
             dynamicObject.endOfScreen.connect(append)
@@ -32,19 +33,27 @@ Window {
         running: false; 
         repeat: true;
         onTriggered: {
-            screen.update()
             const x = Math.random() * (parent.width - objectSide)
             const url = "https://source.unsplash.com/random"
-            screen.createNewObj(x, url, true)
+            appendToNextScreen(x, url, 1)
         }
     }
 
-    function appendToNextScreen(x, url) {
-        screen.createNewObj(x, url, false)
+    function appendToNextScreen(x, url, scr) {
+
+        if ((objectName == scr) && (parseInt(scr) == parseInt(screenCount))){
+            createNewObj(x, url, false)
+            return;
+        }
+
+        if((objectName == scr) && (parseInt(scr) < parseInt(screenCount))) {
+            createNewObj(x, url, true)
+            return;
+        }
     }
 
     Component.onCompleted: {
-        if (screen.objectName == 1) {
+        if (objectName == 1) {
             timer.running = true;
         } else {
             append.connect(appendToNextScreen);

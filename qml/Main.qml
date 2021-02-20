@@ -11,7 +11,7 @@ Window {
 
     property int screenCount: 0
 
-    signal append(int x, url source);
+    signal append(int x, url source, int screen);
 
     function addScreen() {
         screenCount++
